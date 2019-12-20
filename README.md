@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/frmdstryr/zig-mimetypes.svg?branch=master)](https://travis-ci.org/frmdstryr/zig-mimetypes)
 
-A mimetype module for Zig with an api similar to python's.
+A mimetype module for Zig.
 
 ### Usage
 
