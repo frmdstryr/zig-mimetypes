@@ -369,3 +369,13 @@ test "guess-ext-from-file" {
         "application/x-7z-compressed", registry.getTypeFromFilename("archive.7z").?);
 
 }
+
+test "guess-ext-unknown" {
+    var registry = Registry.init(std.heap.page_allocator);
+    defer registry.deinit();
+    try registry.load();
+
+    // This ext is not in the list above
+    testing.expect(registry.getTypeFromFilename("notanext") == null);
+
+}
