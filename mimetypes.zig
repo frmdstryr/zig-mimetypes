@@ -358,3 +358,12 @@ test "guess-ext" {
         "application/javascript", registry.getTypeFromFilename("wavascript.js").?);
 
 }
+
+test "guess-ext-from-file" {
+    var registry = Registry.init(std.heap.page_allocator);
+    defer registry.deinit();
+    try registry.load();
+    testing.expectEqualSlices(u8,
+        "application/x-7z-compressed", registry.getTypeFromFilename("archive.7z").?);
+
+}
