@@ -23,3 +23,4 @@ if (registry.getTypeFromFilename("wavascript.js")) |mime_type| {
 
 
 
+> Note: It currently does not support Windows

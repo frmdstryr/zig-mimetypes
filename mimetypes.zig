@@ -363,6 +363,8 @@ test "guess-ext-from-file" {
     var registry = Registry.init(std.heap.page_allocator);
     defer registry.deinit();
     try registry.load();
+
+    // This ext is not in the list above
     testing.expectEqualSlices(u8,
         "application/x-7z-compressed", registry.getTypeFromFilename("archive.7z").?);
 
