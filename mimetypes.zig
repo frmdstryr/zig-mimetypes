@@ -251,12 +251,12 @@ pub const Registry = struct {
         const allocator = &self.arena.allocator;
         _ = try self.type_map.put(ext, mime_type);
 
-        if (self.type_map_inv.getValue(mime_type)) |extensions| {
+        if (self.type_map_inv.getEntry(mime_type)) |entry| {
             // Check if it's already there
-            for (extensions.items) |e| {
+            for (entry.value.items) |e| {
                 if (mem.eql(u8, e, ext)) return; // Already there
             }
-            try extensions.append(ext);
+            try entry.value.append(ext);
         } else {
             // Create a new list of extensions
             const extensions = try allocator.create(StringArray);
@@ -326,11 +326,17 @@ pub const Registry = struct {
 
     // Guess the type of a file based on its URL.
     pub fn getTypeFromExtension(self: *Registry, ext: []const u8) ?[]const u8 {
-        return self.type_map.getValue(ext);
+        if (self.type_map.getEntry(ext)) |entry| {
+            return entry.value;
+        }
+        return null;
     }
 
     pub fn getExtensionsByType(self: *Registry, mime_type: []const u8) ?*StringArray {
-        return self.type_map_inv.getValue(mime_type);
+        if (self.type_map_inv.getEntry(mime_type)) |entry| {
+            return entry.value;
+        }
+        return null;
     }
 
     pub fn deinit(self: *Registry) void {
@@ -379,3 +385,4 @@ test "guess-ext-unknown" {
     testing.expect(registry.getTypeFromFilename("notanext") == null);
 
 }
+
