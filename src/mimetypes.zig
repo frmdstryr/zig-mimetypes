@@ -353,6 +353,8 @@ pub const Registry = struct {
 
 };
 
+pub var instance: ?Registry = null;
+
 
 test "guess-ext" {
     var registry = Registry.init(std.testing.allocator);
